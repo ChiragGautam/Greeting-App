@@ -21,11 +21,19 @@ public class GreetingController {
     public String getSimpleGreeting() {
         return greetingService.getSimpleGreeting();
     }
+<<<<<<< HEAD
     @GetMapping("/message")
     public String getPersonalizedGreeting(
             @RequestParam(required = false) String firstName,
             @RequestParam(required = false) String lastName) {
         return greetingService.getGreeting(firstName, lastName);
+=======
+    @PostMapping("/save")
+    public Greeting saveGreeting(
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName) {
+        return greetingService.saveGreeting(firstName, lastName);
+>>>>>>> fc837e0 ( UC4 Added)
     }
     @GetMapping("/findall")
     public ResponseEntity<?> getAllGreetings() {
@@ -47,7 +55,6 @@ public class GreetingController {
         greeting.setMessage(greetingDetails.getMessage());
         return greetingRepository.save(greeting);
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteGreeting(@PathVariable Long id) {
         Greeting greeting = greetingRepository.findById(id)
