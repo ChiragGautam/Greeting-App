@@ -2,6 +2,7 @@ package com.example.GreetingApp.controller;
 import com.example.GreetingApp.Exception.ResourceNotFoundException;
 import com.example.GreetingApp.model.Greeting;
 import com.example.GreetingApp.repository.GreetingRepository;
+import com.example.GreetingApp.service.GreetingServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,18 @@ public class GreetingController {
 
     @Autowired
     private GreetingRepository greetingRepository;
-
+    @Autowired
+    private GreetingServices greetingService;
+    @GetMapping("/simple")
+    public String getSimpleGreeting() {
+        return greetingService.getSimpleGreeting();
+    }
+    @PostMapping("/save")
+    public Greeting saveGreeting(
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String lastName) {
+        return greetingService.saveGreeting(firstName, lastName);
+    }
     @GetMapping("/findall")
     public ResponseEntity<?> getAllGreetings() {
         try {
@@ -35,7 +47,6 @@ public class GreetingController {
         greeting.setMessage(greetingDetails.getMessage());
         return greetingRepository.save(greeting);
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteGreeting(@PathVariable Long id) {
         Greeting greeting = greetingRepository.findById(id)
@@ -43,4 +54,5 @@ public class GreetingController {
         greetingRepository.delete(greeting);
         return ResponseEntity.ok().build();
     }
+
 }
